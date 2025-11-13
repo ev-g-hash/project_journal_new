@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Список тем{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2><i class="fas fa-list me-2"></i>Все темы</h2>
+</div>
+
+{% if user.is_authenticated %}
+<div class="mb-4">
+    <a href="{% url 'journal:new_topic' %}" class="btn btn-success btn-lg">
+        <i class="fas fa-plus me-2"></i>Создать новую тему
+    </a>
+</div>
+{% endif %}
+
+{% if topics %}
+<div class="row">
+    {% for topic in topics %}
+    <div class="col-md-6 col-lg-4">
+        <div class="topic-item">
+            <h5 class="text-success">
+                <i class="fas fa-folder me-2"></i>{{ topic.text }}
+            </h5>
+            <p class="text-muted small mb-2">
+                <i class="fas fa-user me-1"></i>{{ topic.owner.username }}
+            </p>
+            <p class="text-muted small mb-3">
+                <i class="fas fa-calendar me-1"></i>{{ topic.date_added|date:"d.m.Y H:i" }}
+            </p>
+            
+            <div class="d-grid gap-1">
+                <a href="{% url 'journal:topic' topic.id %}" class="btn btn-success btn-sm">
+                    <i class="fas fa-eye me-1"></i>Открыть тему
+                </a>
+                
+                {% if user.is_authenticated and user == topic.owner %}
+                <a href="{% url 'journal:new_entry' topic.id %}" class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-plus me-1"></i>Добавить запись
+                </a>
+                <a href="{% url 'journal:edit_topic' topic.id %}" class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-edit me-1"></i>Редактировать
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="fas fa-folder-open text-muted mb-4" style="font-size: 4rem;"></i>
+    <h4 class="text-muted">Тем пока нет</h4>
+    {% if user.is_authenticated %}
+    <p class="text-muted">Создайте первую тему для начала работы</p>
+    <a href="{% url 'journal:new_topic' %}" class="btn btn-success btn-lg">
+        <i class="fas fa-plus me-2"></i>Создать тему
+    </a>
+    {% else %}
+    <p class="text-muted">Зарегистрируйтесь или войдите в систему для создания тем</p>
+    <div class="d-flex justify-content-center gap-3">
+        <a href="{% url 'accounts:login' %}" class="btn btn-success">
+            <i class="fas fa-sign-in-alt me-2"></i>Войти
+        </a>
+        <a href="{% url 'accounts:register' %}" class="btn btn-outline-success">
+            <i class="fas fa-user-plus me-2"></i>Регистрация
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

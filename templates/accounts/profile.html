@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2><i class="fas fa-user me-2"></i>Профиль пользователя {{ user.username }}</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Редактирование профиля</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.bio.id_for_label }}" class="form-label">
+                            <i class="fas fa-info-circle me-2"></i>О себе
+                        </label>
+                        {{ form.bio }}
+                        <div class="form-text">Расскажите о себе</div>
+                        {% if form.bio.errors %}
+                        <div class="text-danger mt-2">
+                            <i class="fas fa-exclamation-triangle me-1"></i>
+                            {{ form.bio.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.date_of_birth.id_for_label }}" class="form-label">
+                            <i class="fas fa-calendar me-2"></i>Дата рождения
+                        </label>
+                        {{ form.date_of_birth }}
+                        {% if form.date_of_birth.errors %}
+                        <div class="text-danger mt-2">
+                            <i class="fas fa-exclamation-triangle me-1"></i>
+                            {{ form.date_of_birth.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-save me-2"></i>Сохранить профиль
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h6 class="mb-0"><i class="fas fa-user me-2"></i>Информация о пользователе</h6>
+            </div>
+            <div class="card-body">
+                <p><strong><i class="fas fa-user me-2"></i>Имя пользователя:</strong> {{ user.username }}</p>
+                <p><strong><i class="fas fa-envelope me-2"></i>Email:</strong> {{ user.email }}</p>
+                <p><strong><i class="fas fa-user me-2"></i>Имя:</strong> {{ user.first_name|default:"Не указано" }}</p>
+                <p><strong><i class="fas fa-user me-2"></i>Фамилия:</strong> {{ user.last_name|default:"Не указано" }}</p>
+                <p><strong><i class="fas fa-calendar me-2"></i>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y" }}</p>
+                <p><strong><i class="fas fa-check-circle me-2"></i>Статус:</strong> 
+                    {% if user.is_active %}
+                    <span class="text-success">Активен</span>
+                    {% else %}
+                    <span class="text-danger">Заблокирован</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

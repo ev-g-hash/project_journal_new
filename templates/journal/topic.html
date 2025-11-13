@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}{{ topic.text }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2><i class="fas fa-folder me-2"></i>{{ topic.text }}</h2>
+    {% if topic.owner == user %}
+    <div class="mt-3">
+        <a href="{% url 'journal:new_entry' topic.id %}" class="btn btn-success">
+            <i class="fas fa-plus me-2"></i>Добавить запись
+        </a>
+        <a href="{% url 'journal:edit_topic' topic.id %}" class="btn btn-outline-success">
+            <i class="fas fa-edit me-2"></i>Редактировать тему
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+{% if error_message %}
+<div class="alert alert-warning">
+    <i class="fas fa-exclamation-triangle me-2"></i>{{ error_message }}
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-8">
+        {% if entries %}
+        <h4 class="text-success mb-3">
+            <i class="fas fa-list me-2"></i>Записи ({{ entries.count }})
+        </h4>
+        
+        {% for entry in entries %}
+        <div class="entry-item">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="text-success mb-0">
+                    <i class="fas fa-sticky-note me-2"></i>Запись #{{ forloop.counter }}
+                </h6>
+                <small class="text-muted">{{ entry.date_added|date:"d.m.Y H:i" }}</small>
+            </div>
+            
+            <p class="mb-3">{{ entry.text|linebreaks }}</p>
+            
+            {% if user.is_authenticated and user == topic.owner %}
+            <div class="mt-3">
+                <a href="{% url 'journal:edit_entry' entry.id %}" class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-edit me-1"></i>Редактировать
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-sticky-note text-muted mb-4" style="font-size: 3rem;"></i>
+            <h4 class="text-muted">В этой теме пока нет записей</h4>
+            {% if user.is_authenticated and user == topic.owner %}
+            <p class="text-muted">Добавьте первую запись к этой теме</p>
+            <a href="{% url 'journal:new_entry' topic.id %}" class="btn btn-success btn-lg">
+                <i class="fas fa-plus me-2"></i>Добавить запись
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Информация о теме</h6>
+            </div>
+            <div class="card-body">
+                <p><strong><i class="fas fa-user me-2"></i>Автор:</strong> {{ topic.owner.username }}</p>
+                <p><strong><i class="fas fa-calendar me-2"></i>Создана:</strong> {{ topic.date_added|date:"d.m.Y H:i" }}</p>
+                <p><strong><i class="fas fa-sticky-note me-2"></i>Записей:</strong> {{ entries.count }}</p>
+                <p><strong><i class="fas fa-link me-2"></i>ID темы:</strong> {{ topic.id }}</p>
+            </div>
+        </div>
+        
+        {% if user.is_authenticated %}
+        <div class="card mt-3">
+            <div class="card-header bg-success text-white">
+                <h6 class="mb-0"><i class="fas fa-tools me-2"></i>Действия</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'journal:new_entry' topic.id %}" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus me-2"></i>Новая запись
+                    </a>
+                    {% if user == topic.owner %}
+                    <a href="{% url 'journal:edit_topic' topic.id %}" class="btn btn-outline-success btn-sm">
+                        <i class="fas fa-edit me-2"></i>Редактировать тему
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'journal:topics' %}" class="btn btn-outline-success btn-sm">
+                        <i class="fas fa-arrow-left me-2"></i>К списку тем
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
