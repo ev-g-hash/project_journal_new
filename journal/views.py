@@ -10,26 +10,14 @@ def index(request):
 
 def topics(request):
     """Список всех тем"""
-    topics = Topic.objects.filter(owner=request.user).order_by('date_added') if request.user.is_authenticated else Topic.objects.none()
+    topics = Topic.objects.order_by('date_added')
     return render(request, 'journal/topics.html', {'topics': topics})
 
 def topic(request, topic_id):
-    """Отображение отдельной темы и её записей"""
-    topic = get_object_or_404(Topic, id=topic_id)
-    
-    # Проверка прав доступа
-    if topic.owner != request.user:
-        if not request.user.is_authenticated:
-            return redirect('accounts:login')
-        else:
-            return render(request, 'journal/topic.html', {
-                'topic': topic,
-                'entries': topic.entry_set.order_by('-date_added'),
-                'error_message': 'У вас нет прав для просмотра этой темы.'
-            })
-    
-    entries = topic.entry_set.order_by('-date_added')
-    return render(request, 'journal/topic.html', {'topic': topic, 'entries': entries})
+    topic = Topic.objects.get(id=topic_id)
+    entries = topic.entry_set.order_by('date_added')
+    context = {'topic':topic, 'entries':entries}
+    return render(request, 'journal/topic.html', context)
 
 @login_required
 def new_topic(request):
