@@ -3,258 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Django Журнал Записей - Презентация</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2e8b57 0%, #228b22 50%, #32cd32 100%);
-            min-height: 100vh;
-        }
-        
-        .presentation-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .slide {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            margin-bottom: 40px;
-            padding: 50px;
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            animation: slideIn 0.8s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .slide-title {
-            background: linear-gradient(45deg, #228b22, #32cd32);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 3rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .slide-subtitle {
-            font-size: 1.5rem;
-            color: #2e8b57;
-            text-align: center;
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-        
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .feature-card {
-            background: linear-gradient(145deg, #f8fff8 0%, #e8f5e8 100%);
-            border-radius: 15px;
-            padding: 30px;
-            border-left: 5px solid #32cd32;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            color: #228b22;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .feature-title {
-            font-size: 1.3rem;
-            color: #2e8b57;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .feature-description {
-            color: #555;
-            line-height: 1.6;
-            text-align: center;
-        }
-        
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .tech-item {
-            background: linear-gradient(45deg, #228b22, #32cd32);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 25px;
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .code-block {
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-        }
-        
-        .highlight {
-            background: linear-gradient(45deg, #32cd32, #90ee90);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        
-        .demo-section {
-            background: linear-gradient(135deg, #f8fff8 0%, #e8f5e8 100%);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 20px 0;
-            border: 2px solid #32cd32;
-        }
-        
-        .navigation {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-            display: flex;
-            gap: 15px;
-        }
-        
-        .nav-btn {
-            background: linear-gradient(45deg, #228b22, #32cd32);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-        }
-        
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            text-decoration: none;
-            color: white;
-        }
-        
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .slide-number {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background: #228b22;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        
-        .architecture-diagram {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 20px 0;
-            border: 2px solid #32cd32;
-            text-align: center;
-        }
-        
-        .architecture-box {
-            display: inline-block;
-            background: linear-gradient(45deg, #228b22, #32cd32);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            margin: 10px;
-            font-weight: bold;
-        }
-        
-        .arrow {
-            font-size: 2rem;
-            color: #32cd32;
-            margin: 0 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .slide {
-                padding: 30px 20px;
-                min-height: auto;
-            }
-            
-            .slide-title {
-                font-size: 2rem;
-            }
-            
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tech-stack {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .navigation {
-                bottom: 20px;
-                right: 20px;
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <title>Журнал Обучения - Презентация</title>    
 </head>
+
 <body>
     <div class="presentation-container">
         <!-- Слайд 1: Титульный -->
@@ -276,8 +29,8 @@
                 </div>
             </div>
             <div class="tech-stack">
-                <div class="tech-item">Django 4.2</div>
-                <div class="tech-item">Python 3.11</div>
+                <div class="tech-item">Django 5.2</div>
+                <div class="tech-item">Python 3.13</div>
                 <div class="tech-item">Bootstrap 5</div>
                 <div class="tech-item">SQLite</div>
             </div>
@@ -304,7 +57,7 @@
                     </div>
                     <div class="feature-title">Управление темами</div>
                     <div class="feature-description">
-                        Создание, редактирование и удаление тем с привязкой к владельцу
+                        Создание, редактирование с привязкой к владельцу
                     </div>
                 </div>
                 
@@ -404,7 +157,7 @@
                     <div class="feature-icon"><i class="fas fa-home"></i></div>
                     <div class="feature-title">index()</div>
                     <div class="feature-description">
-                        Главная страница с списком тем пользователя и статистикой
+                        Главная страница со списком тем пользователя и статистикой
                     </div>
                 </div>
                 
@@ -428,7 +181,7 @@
                     <div class="feature-icon"><i class="fas fa-plus"></i></div>
                     <div class="feature-title">new_topic()</div>
                     <div class="feature-description">
-                        Создание новой темы (требует авторизации)
+                        Создание новой темы (требуется авторизация)
                     </div>
                 </div>
                 
@@ -469,7 +222,7 @@
                     <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
                     <div class="feature-title">Адаптивный дизайн</div>
                     <div class="feature-description">
-                        Bootstrap 5 обеспечивает корректное отображение на всех устройствах
+                        Bootstrap 5  адаптивный интерфейс
                     </div>
                 </div>
                 
@@ -541,7 +294,7 @@
                     <div class="feature-icon"><i class="fas fa-ban"></i></div>
                     <div class="feature-title">Ограничение функций</div>
                     <div class="feature-description">
-                        Незарегистрированные пользователи видят только список тем
+                        Незарегистрированные пользователи видят только список тем и записей
                     </div>
                 </div>
                 
@@ -565,7 +318,7 @@
                 <ul style="color: #555; line-height: 2; font-size: 1.1rem;">
                     <li>✅ Просмотр списка всех тем</li>
                     <li>✅ Просмотр содержимого тем и записей</li>
-                    <li>🔒 Попытка редактирования → редирект на страницу входа</li>
+                    <li>✅ Редактирование содержимого тем и записей авторизованного пользователя</li>
                 </ul>
             </div>
             
@@ -585,8 +338,7 @@
                 <h4 style="color: #2e8b57; margin-bottom: 20px;"><i class="fas fa-chart-line me-2"></i>Дополнительные возможности:</h4>
                 <ul style="color: #555; line-height: 2; font-size: 1.1rem;">
                     <li>📊 Отображение статистики (количество тем, записей)</li>
-                    <li>🔍 Красивое оформление с анимациями</li>
-                    <li>📱 Полная адаптивность под мобильные устройства</li>
+                    <li>🔍 Красивое оформление с анимациями</li>                    
                     <li>🎨 Современный дизайн в зеленых тонах</li>
                 </ul>
             </div>
@@ -648,104 +400,7 @@
         </button>
     </div>
 
-    <script>
-        let currentSlide = 1;
-        const totalSlides = 8;
-
-        function showSlide(slideNumber) {
-            // Скрываем все слайды
-            const slides = document.querySelectorAll('.slide');
-            slides.forEach(slide => {
-                slide.style.display = 'none';
-            });
-            
-            // Показываем нужный слайд
-            const targetSlide = document.getElementById('slide' + slideNumber);
-            if (targetSlide) {
-                targetSlide.style.display = 'flex';
-            }
-            
-            // Обновляем URL
-            window.location.hash = 'slide' + slideNumber;
-            
-            // Обновляем состояние кнопок
-            updateButtons();
-        }
-
-        function nextSlide() {
-            if (currentSlide < totalSlides) {
-                currentSlide++;
-                showSlide(currentSlide);
-            }
-        }
-
-        function previousSlide() {
-            if (currentSlide > 1) {
-                currentSlide--;
-                showSlide(currentSlide);
-            }
-        }
-
-        function updateButtons() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
-            // Обновляем состояние кнопки "Назад"
-            if (currentSlide === 1) {
-                prevBtn.disabled = true;
-                prevBtn.style.opacity = '0.5';
-            } else {
-                prevBtn.disabled = false;
-                prevBtn.style.opacity = '1';
-            }
-            
-            // Обновляем состояние кнопки "Вперед"
-            if (currentSlide === totalSlides) {
-                nextBtn.disabled = true;
-                nextBtn.style.opacity = '0.5';
-            } else {
-                nextBtn.disabled = false;
-                nextBtn.style.opacity = '1';
-            }
-        }
-
-        // Навигация клавиатурой
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                e.preventDefault();
-                nextSlide();
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                previousSlide();
-            }
-        });
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', function() {
-            // Проверяем URL на наличие хеша
-            const hash = window.location.hash;
-            if (hash) {
-                const slideNum = parseInt(hash.replace('#slide', ''));
-                if (slideNum >= 1 && slideNum <= totalSlides) {
-                    currentSlide = slideNum;
-                }
-            }
-            
-            showSlide(currentSlide);
-        });
-
-        // Добавляем обработку колесика мыши
-        let scrollTimeout;
-        document.addEventListener('wheel', function(e) {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                if (e.deltaY > 0) {
-                    nextSlide();
-                } else if (e.deltaY < 0) {
-                    previousSlide();
-                }
-            }, 100);
-        });
-    </script>
+    <script src="script.js"> </script>
+    
 </body>
 </html>

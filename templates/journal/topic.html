@@ -73,7 +73,7 @@
                 <p><strong><i class="fas fa-user me-2"></i>Автор:</strong> {{ topic.owner.username }}</p>
                 <p><strong><i class="fas fa-calendar me-2"></i>Создана:</strong> {{ topic.date_added|date:"d.m.Y H:i" }}</p>
                 <p><strong><i class="fas fa-sticky-note me-2"></i>Записей:</strong> {{ entries.count }}</p>
-                <p><strong><i class="fas fa-link me-2"></i>ID темы:</strong> {{ topic.id }}</p>
+                {% comment %} <p><strong><i class="fas fa-link me-2"></i>ID темы:</strong> {{ topic.id }}</p> {% endcomment %}
             </div>
         </div>
         
